@@ -3,130 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Rose Day, My Valentine!</title>
+    <title>Happy Rose Day Bisht! 🌹</title>
     <style>
-        /* --- General Styling --- */
+        /* --- CSS STYLES --- */
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            color: #5a2a2a;
             margin: 0;
             padding: 0;
+            text-align: center;
+            overflow-x: hidden;
             min-height: 100vh;
-            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Music Player Styling */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            border: 2px solid #ff4d6d;
             display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Sections */
+        .section {
+            display: none; /* Hidden by default */
+            min-height: 90vh;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; /* Prevents scrollbars during animation */
+            padding: 20px;
+            animation: fadeIn 1s;
         }
 
+        .section.active {
+            display: flex;
+        }
+
+        h1 { 
+            color: #d6336c; 
+            font-size: 2.5rem; 
+            margin-bottom: 20px; 
+            font-family: 'Brush Script MT', cursive; 
+            text-shadow: 1px 1px 2px white;
+        }
+        
+        p { line-height: 1.6; font-size: 1.2rem; color: #444; }
+
+        /* Card Styling */
         .card {
             background: rgba(255, 255, 255, 0.85);
-            padding: 40px;
+            backdrop-filter: blur(10px);
+            padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            border: 2px solid white;
+        }
+
+        /* Quiz Styling */
+        input {
+            padding: 12px;
+            border: 2px solid #ffccd5;
+            border-radius: 25px;
+            width: 80%;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            outline: none;
             text-align: center;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            border: 2px solid #fff;
         }
+        
+        input:focus { border-color: #d6336c; }
 
-        h1 {
-            color: #d6336c;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-family: 'Brush Script MT', cursive;
-        }
-
-        p {
-            color: #555;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        /* --- The Rose SVG --- */
-        .rose-container {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        /* --- Button Styling --- */
-        .btn {
+        button {
             background: #ff4757;
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 12px 30px;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
+            font-size: 1.1rem;
+            transition: 0.3s;
             box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+            margin-top: 10px;
+            font-weight: bold;
         }
 
-        .btn:hover {
-            background: #ff6b81;
-            transform: scale(1.05);
+        button:hover { background: #ff6b81; transform: translateY(-3px); }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            width: 100%;
+            margin-top: 20px;
         }
 
-        .btn:active {
-            transform: scale(0.95);
+        .gallery-item {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            border: 4px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: white;
         }
 
-        /* --- Animations --- */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .gallery-item:hover { transform: scale(1.05); z-index: 10; }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Falling Petals (Generated by JS) */
+        /* Floating Petals */
         .petal {
-            position: absolute;
+            position: fixed;
             top: -10vh;
-            font-size: 2rem;
+            font-size: 1.5rem;
             animation: fall linear forwards;
             z-index: 1;
+            pointer-events: none;
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(110vh) rotate(720deg);
-            }
+            to { transform: translateY(110vh) rotate(720deg); }
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="rose-container">
-            <svg viewBox="0 0 512 512" width="100%" height="100%">
-                <path fill="#d6336c" d="M256 0C160 0 128 64 128 64s-32-16-64 0-32 64 0 96 64 32 64 32v32c-32 0-64 32-64 64s32 64 64 64h128c32 0 64-32 64-64s-32-64-64-64v-32c32 0 64-32 64-32s32-32 0-96-32-32-64-32-32 16-64 0S352 0 256 0z"/>
-                <path fill="#2ecc71" d="M256 320v192" stroke="#2ecc71" stroke-width="15" stroke-linecap="round"/>
-                <path fill="#2ecc71" d="M256 380c0 0-60-20-80-60m80 80c0 0 60-20 80-60" stroke="#2ecc71" stroke-width="15" stroke-linecap="round"/>
-            </svg>
+    <div class="music-player">
+        <div style="text-align: left;">
+            <p style="margin: 0; font-size: 0.7rem; color: #d90429; font-weight: bold;">Playing: Sang Rahiyo 🎵</p>
+            <audio controls loop style="height: 30px; margin-top: 5px;">
+                <source src="Sang-Rahiyo.mp3" type="audio/mpeg">
+            </audio>
         </div>
-        
-        <h1>Happy Rose Day!</h1>
-        <p>
-            To my Bisht❤️
-            
-            A single rose can be my garden,<br>
-            but a single friend like you is my world.<br>
-            Sending you all my love today!
-        </p>
-        
-        <button class="btn" onclick="showerRoses()">Accept This Rose 🌹</button>
+    </div>
+
+    <div class="container">
+
+        <div id="intro" class="section active">
+            <div class="card">
+                <div style="font-size: 4rem; margin-bottom: 10px;">🌹</div>
+                <h1>Happy Rose Day, Bisht!</h1>
+                <p>I have a special surprise for you.</p>
+                <p>But since you are my "Permanent", you have to pass our friendship test first!</p>
+                <button onclick="nextSection('intro', 'quiz')">Let's Go!</button>
+            </div>
+        </div>
+
+        <div id="quiz" class="section">
+            <div class="card">
+                <h1>The Bestie Quiz 👯‍♀️</h1>
+                
+                <div id="q1">
+                    <p><b>Q1:</b> We met in 9th, but in which class did we truly bond and become "cracked" together?</p>
+                    <input type="text" id="ans1" placeholder="Hint: Number...">
+                    <br>
+                    <button onclick="checkQ1()">Submit</button>
+                </div>
+
+                <div id="q2" style="display: none;">
+                    <p><b>Q2:</b> Who is our favorite K-Drama Oppa? (Hint: <i>Legend of the Blue Sea</i> & <i>The King</i>)</p>
+                    <input type="text" id="ans2" placeholder="Hint: Lee...">
+                    <br>
+                    <button onclick="checkQ2()">Unlock Gift 🎁</button>
+                </div>
+
+                <p id="error-msg" style="color: #ff4757; display: none; margin-top: 10px; font-weight: bold;"></p>
+            </div>
+        </div>
+
+        <div id="letter" class="section">
+            <div class="card">
+                <h1>To My Bisht ❤️</h1>
+                <p style="text-align: left; font-size: 1.1rem;">
+                    <b>Happy Rose Day!</b> 🌹<br><br>
+                    It's crazy to think I knew you in 9th but we barely spoke. But thank god for <b>Class 11th</b>, right? That’s when we sat together, matched our vibes, and I realized—<i>wait, she is just as cracked as I am!</i> 😂<br><br>
+                    From obsessing over <b>Lee Min Ho</b> in <i>Legend of the Blue Sea</i> to sharing reels every single day, you have become my permanent habit. <br><br>
+                    I know we are in different places now, but you are the one person I share everything with. Thank you for being my constant.<br><br>
+                    Here are some memories of us being us! 👇
+                </p>
+                <button onclick="showerRoses()">Shower Love 🌹✨</button>
+                <br><br>
+                <button onclick="nextSection('letter', 'gallery')">Open Gallery 📸</button>
+            </div>
+        </div>
+
+        <div id="gallery" class="section">
+            <h1>Our Memories 📸</h1>
+            <p>From 11th to Forever...</p>
+
+            <div class="gallery-grid">
+                <img src="bisht1.jpeg" class="gallery-item" alt="Memory 1">
+                <img src="bisht2.jpeg" class="gallery-item" alt="Memory 2">
+                <img src="bb.jpeg" class="gallery-item" alt="Memory 3">
+                <img src="bb1.jpeg" class="gallery-item" alt="Memory 4">
+                
+                <video controls class="gallery-item">
+                    <source src="vidd.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <p><i>"Sang rahyo, sang rahyo... ❤️"</i></p>
+                <p>Love you Bisht!</p>
+            </div>
+        </div>
+
     </div>
 
     <script>
+        // NAVIGATION LOGIC
+        function nextSection(current, next) {
+            document.getElementById(current).classList.remove('active');
+            document.getElementById(next).classList.add('active');
+        }
+
+        // QUIZ LOGIC
+        function checkQ1() {
+            const ans = document.getElementById('ans1').value.toLowerCase().trim();
+            const error = document.getElementById('error-msg');
+            
+            // Answer: 11th or 11
+            if (ans.includes('11') || ans.includes('eleven')) {
+                document.getElementById('q1').style.display = 'none';
+                document.getElementById('q2').style.display = 'block';
+                error.style.display = 'none';
+            } else {
+                error.style.display = 'block';
+                error.innerText = "Nope! Think about when we started sitting together! 😜";
+                shakeBox();
+            }
+        }
+
+        function checkQ2() {
+            const ans = document.getElementById('ans2').value.toLowerCase().trim();
+            const error = document.getElementById('error-msg');
+
+            // Answer: Lee Min Ho
+            if (ans.includes('min') || ans.includes('ho')) {
+                nextSection('quiz', 'letter');
+                showerRoses(); 
+            } else {
+                error.style.display = 'block';
+                error.innerText = "How can you forget HIM? 🤴🇰🇷";
+                shakeBox();
+            }
+        }
+
+        function shakeBox() {
+            const card = document.querySelector('.section.active .card');
+            card.style.transform = "translateX(10px)";
+            setTimeout(() => { card.style.transform = "translateX(-10px)"; }, 100);
+            setTimeout(() => { card.style.transform = "translateX(0)"; }, 200);
+        }
+
+        // FLOWER SHOWER ANIMATION
         function showerRoses() {
             const body = document.querySelector('body');
-            const emojis = ['🌹', '🌸', '💖', '✨'];
+            const emojis = ['🌹', '🌸', '💖', '✨', '👑', '🫰']; 
             
-            // Create 50 falling elements
             for (let i = 0; i < 50; i++) {
                 const petal = document.createElement('div');
                 petal.classList.add('petal');
@@ -134,17 +293,22 @@
                 
                 // Random positioning
                 petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.animationDuration = Math.random() * 2 + 3 + 's'; // Between 3-5s
+                petal.style.animationDuration = Math.random() * 2 + 3 + 's'; 
                 petal.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
                 
                 body.appendChild(petal);
 
-                // Remove element after animation to keep DOM clean
+                // Cleanup
                 setTimeout(() => {
                     petal.remove();
                 }, 5000);
             }
         }
+
+        // Start background roses on load
+        setInterval(() => {
+            showerRoses();
+        }, 12000); 
     </script>
 </body>
 </html>
